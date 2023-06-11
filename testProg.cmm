@@ -1,0 +1,62 @@
+double x;
+int y;
+int deadcode;
+int w;
+float flt;
+
+//comment type 1
+/*comment type 2*/
+
+int arr[5];
+
+int addNumbers(int varQ, int varP){
+    int varM;
+    int varN; 
+    varM = 0;
+    //proof of while functionality
+    while(varM == 0){
+    //proof of if functionality
+        if(varN == 0){
+    //proof of math
+            varN = 2 + 2;
+        }
+        varM = 1;
+    }
+    return varM;
+};
+
+int secondFunc(int var1){
+    int var3;
+    var3 = 0; 
+    addNumbers(var3,var1);
+    return var3;
+};
+
+x = 23.564895;
+y = 2;
+flt = 3.45;
+y = 1 + 2;
+y = 1 - 2 + 3;
+y = 1 - 2 * 3;
+y = 1 - 2 / 3;
+y = 1 - 2 % 3;
+y = 1 - 2 * 3 + 4 / 5 % 6;
+y = (1 - 2) * 3 + 4 / 5 % 6;
+x = y;
+
+addNumbers(1,2);
+
+write x;
+
+x = 0;
+
+if(x == 0){
+   y = 1;
+   x = 2;
+}
+
+while(x == 1){
+    x = 0;
+}
+
+x = 3;

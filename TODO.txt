@@ -1,0 +1,329 @@
+ ============================
+To Do List for Project 2:
+=============================
+[*] Get the expression list working
+[*] Symbol Table
+[*] AST
+    -fix write_ast
+[*] Semantic analysis
+[*] Semantic actions
+[*] IR Code (Emit)
+[*] MIPS
+[*] Loom video
+
+// AST print idea
+----|x
+----|----|4
+----|----|+
+----|----|----|4
+----|----|----|3
+
+
+
+
+============================
+To Do List for Project 3:
+=============================
+
+1.Enter all grammar rules in Bison
+2.Update the Lexer to return all relevant tokens
+3.Update symbol table and decide on a scope management strategy
+    a.Function name, return type, and scope
+    b.Parameter name, types, and scope
+    c.Local variables, types, and scope
+4.Create AST for function declaration
+5.Create AST for parameter declaration
+6.Semantic checks:
+    a.Are variables used inside the function declared in the expected scope?
+    b.Does the returned type match the declared?
+    c.If you allow void function type, then return is an error
+
+
+
+B. FUNCTION CALL
+
+
+Symbol Table:
+Array of arrays
+Can put our current array in the other arrayLook at Isac's excel
+
+TODO List for Project 3:
+[] Make scope variable
+    I may need to first make multiple symbol tables with multiple scope names
+Come up with a mechanism that simulates a python dictionary.
+    2D Array or struct with 2 entries
+    
+ []  Kyle: Symbol Table
+ []  Semantic checks
+ []  Anmol: IR Code
+ []  Josiah: MIPS (Optimize) 
+ 
+
+    
+    -------------------------
+
+[] Need a bridge to switch the scopes
+
+dictionary[0] = dictionaryitem{ 
+    scope = func1
+    funcName = palindrome
+       }
+
+1. We have our scope arrays
+2. To switch scopes we must access the dictionary
+3. The dictionary must have function name set equal to scope array name
+4. We can do this by strcpy
+
+
+----------------------------
+
+Part 1: Move from globSymTable to generalized symbol Table
+Part 2: find the table index within the tableHolder that matches the scope. pass this into all functions
+
+
+
+
+----------------
+
+Array implementation:
+
+int x[5]; <---- recognized
+x[3] = 3; <---- recognized but it doesn't know how to store it or display in the symbol table
+x[] = [3,1,2,4,5]; <--- gonna be a pain. probably have to set up something like ArrayList in parser to have infinite 
+                        "Expr Comma Expr" but also make sure it doesn't exceed arrayLength
+
+
+-----------
+
+Function:
+    we need to access the arguments entered in the func call
+
+    implement return statements
+
+-------------
+MIPS:
+all sorts of nonsense
+functions can be implemented
+math can be done there
+
+============================
+
+rework math so that it returns the result of a full statement 
+set values in ir code instead of that full statement
+we're doing this because recursion makes no sense otherwise
+
+
+--------------------
+
+func call as an argument for a func call
+
+
+
+------------------
+
+if we use main, we can decide that only code used in the main is "not dead" for IR optimization
+
+
+
+
+============================
+Condition:
+IF LPAR CONDITION RPAR BLOCK ELSE BLOCK
+
+
+Checklist:
+
+*Note* Riley was never able to call a function
+
+Lexer
+[x]Add IF
+[x]Add all comparison operators
+[x]Boolean variables
+[x]All variable types
+[x]All algebraic operators
+
+
+Parser
+[x]IF LPAR CONDLIST RPAR BLOCK
+[x]CONDITION:
+    [x]Simple: a > b *lets just get this working first*
+    [x]More complex: (a > b) && (c < 5)
+    []Use functions that return boolean values: 
+    []if (found()) write 1
+    []If (found() && max(x,y)>1000) write ….
+[x]IF LPAR CONDITION RPAR BLOCK ELSE BLOCK
+
+*Watch a YT vid on this*
+[]NOTE: must address and explain the dangling else problem
+
+
+Semantic Analyzer
+All semantic checks as before, emphasizing type similarity
+*have int to float and atoi*
+
+IR code uses GOTO statements to implement IF
+Be mindful of scope management issues
+
+*ask if we should just be doing this at the higher level*
+
+If (a > b) {
+	doThis();
+}
+Else {
+	doThat();
+}
+
+T0 = a
+T1 = b
+T2 = T0 - T1
+IF T2 <= 0 GOTO ELSE
+doThis()
+GOTO CONTINUE
+ELSE: doThat()
+
+CONTINUE: 
+
+NOTE: Be mindful of type casting and type coercion and decide which one to implement and when to use
+
+
+AST needs implementation so that we can utilize the finalized tree to get information
+
+
+=================================================================================
+if due on (April 2nd 2023) {Project 4}
+while loop due on (April 23rd 2023) {Project 5}
+putting all together due on (April 30th 2023) {Project 6}
+bonus time until (May 8th 2023) {pls lets not do this} retweet
+=================================================================================
+
+
+
+Calender:
+
+    -Arrays: store contents (but only if he really will grade that)
+    -Functions: add return; add calls without parameters; add calls with parameters (if we have time)
+    -Math: figure out how to do long equations. add other math functions
+    -MIPs: oh god, this is going to be a pain
+    -The $$ propogation
+    [] If Project
+       -function return
+       -function call w/out parameters
+
+    [] Loop Project
+    
+    [] Final Project
+
+----------------
+
+Math Goal:
+Push the final number to the top so we avoid math in MIPS
+    -
+
+----------------
+ifstmt
+evan/hunter's method:
+    - have a global variable that is equal to 1
+    - if the condition is false, set the global variable to 0
+    - this condition is checked for everything in the decl/stmt list
+    - this way, non-ifstmts are naturally set to 1 and can run
+    - 
+
+
+
+
+
+
+
+
+
+=========================================================================================
+4-06-23
+=========================================================================================
+STRESS TEST YOUR COMPILER
+int a;
+int b;
+a = 1;
+b = 5;
+Write (a > b)
+------------------------------------
+while ((a > b)*(c > d)) {
+
+}
+------------------------------------
+while (x < numLength){
+    if(num[x] < num[x+1]){
+        swap (x, x+1);
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+For this iteration, maybe remove the math computation and comment that we will release an update in the final project?
+This would allow us to focus on the if statements and then the while while loops with their respective optimizations
+
+Make a mips microfunction for addition, subtraction, multiplication, and division
+    -this will allow us to do math in mips
+    -we can then use this to do math in the if statements
+    -we can then use this to do math in the while loops
+
+=========================================================================================
+4-13-23
+
+Kyle:
+    -Make IR emit function for addition
+    -Make an optimize function for that IR code
+    -Make a Mips emit based upon that optimized IR code function.
+
+=========================================================================================
+4-16-23
+Ifstmt IR code
+[done] Deadcode elimination
+Make MIPS for all of it.
+
+=========================================================
+4-18-23
+
+Dead code idea: a variable isused when it appears on the right side of a statement
+
+
+=========================================================
+4-24-23
+Kyle:
+Updated math
+IR code for math
+Math MIPS
+
+Josiah:
+Ifstmt
+
+Anmol: optimization deadcode elimination 
+variable used or not
+$$ propogation tree comments
+
+=========================================================
+4-25-23
+while idea: in condlist: if inwhile == true: store the conditions to global variables,
+if in block, check if the global variables are true, 
+at the end, check again. if true restart block somehow, else break.
+
+
+
+
+=========================================================
+LAST ASSIGNMENT GOALS:
+---------------------------------------------------------
+{Done} Compilation Time
+{Done} Execution Time
+{Done} While Loops 
+{} Mips File
+Final submission
+{} comments
+{} dead code elimination
+
+=========================================================
+Future Talks:
+-Dead code elimination
+2. [done] More MIPS
+3. [done] comments/documentation
+1. [x] floats, char array (string), double, comments if possible
+-goal is to run code that is as similar to that test file as possible

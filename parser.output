@@ -1,0 +1,1500 @@
+Useless nonterminals
+
+   FuncType
+   FunDeclList
+   FunCallList
+   FunCall
+   @4
+
+
+Terminals which are not used
+
+   FUNCTYPE
+   NOT_OP
+   BOOLEAN
+
+
+Useless rules
+
+   69 FuncType: FUNCTYPE
+   70         | TYPE
+
+   71 FunDeclList: /* empty */
+   72            | FunDecl FunDeclList
+   73            | FunDecl
+
+   74 FunCallList: /* empty */
+   75            | FunCall FunCallList
+   76            | FunCall
+
+   77 @4: /* empty */
+
+   78 FunCall: ID LPAR @4 ArgsList RPAR SEMICOLON
+
+
+Rules never reduced
+
+   24 StmtList: Stmt
+
+   27 Stmt: /* empty */
+
+
+State 3 conflicts: 5 shift/reduce, 1 reduce/reduce
+State 14 conflicts: 5 shift/reduce, 2 reduce/reduce
+State 15 conflicts: 5 shift/reduce, 2 reduce/reduce
+State 16 conflicts: 5 shift/reduce, 2 reduce/reduce
+State 28 conflicts: 1 shift/reduce
+State 38 conflicts: 1 shift/reduce
+State 39 conflicts: 1 shift/reduce
+State 41 conflicts: 3 shift/reduce
+State 64 conflicts: 1 shift/reduce, 4 reduce/reduce
+State 66 conflicts: 3 shift/reduce, 1 reduce/reduce
+State 68 conflicts: 3 shift/reduce
+State 109 conflicts: 5 shift/reduce, 1 reduce/reduce
+
+
+Grammar
+
+    0 $accept: Program $end
+
+    1 Program: DeclList StmtList
+
+    2 DeclList: /* empty */
+    3         | Decl DeclList
+    4         | FunDecl DeclList
+
+    5 Decl: TYPE ID LSQUAREBRACK NUMBER RSQUAREBRACK SEMICOLON
+    6     | TYPE ID SEMICOLON
+
+    7 @1: /* empty */
+
+    8 FunDecl: TYPE ID LPAR @1 ParamsList RPAR Block SEMICOLON
+
+    9 ParamsList: Params ParamsList
+   10           | Params
+
+   11 Params: TYPE ID
+   12       | TYPE ID COMMA
+   13       | TYPE ID LSQUAREBRACK RSQUAREBRACK
+
+   14 ArgsList: Args ArgsList
+   15         | Args
+
+   16 Args: /* empty */
+   17     | ID
+   18     | ID COMMA
+   19     | ExprList
+   20     | ExprList COMMA
+
+   21 Block: LCURBRACK DeclList StmtList RCURBRACK
+
+   22 StmtList: /* empty */
+   23         | Stmt StmtList
+   24         | Stmt
+   25         | IfStmt StmtList
+   26         | WhileStmt StmtList
+
+   27 Stmt: /* empty */
+   28     | ID EQ ID SEMICOLON
+   29     | ID EQ NUMBER SEMICOLON
+   30     | WRITE ID SEMICOLON
+   31     | ID EQ Expr SEMICOLON
+   32     | ID LSQUAREBRACK NUMBER RSQUAREBRACK EQ Expr SEMICOLON
+
+   33 @2: /* empty */
+
+   34 @3: /* empty */
+
+   35 Stmt: ID LPAR @2 ArgsList RPAR @3 SEMICOLON
+   36     | RETURN Expr SEMICOLON
+   37     | RETURN ID SEMICOLON
+   38     | RETURN SEMICOLON
+
+   39 ExprList: Expr ExprList
+   40         | Expr
+
+   41 Expr: Expr PLUS_OP Expr
+   42     | Expr MINUS_OP Expr
+   43     | Expr MULT_OP Expr
+   44     | Expr DIV_OP Expr
+   45     | Expr MOD_OP Expr
+   46     | ID
+   47     | NUMBER
+   48     | LPAR Expr RPAR
+
+   49 @5: /* empty */
+
+   50 WhileStmt: WHILE @5 LPAR CondList RPAR Block
+
+   51 @6: /* empty */
+
+   52 IfStmt: IF LPAR CondList RPAR Block @6 Else
+
+   53 Else: /* empty */
+   54     | ELSE Block
+   55     | ELSE IfStmt
+
+   56 CondList: Cond
+   57         | Cond Conj CondList
+
+   58 Conj: AND_OP
+   59     | OR_OP
+
+   60 CompOperator: IS_EQ
+   61             | LT
+   62             | GT
+   63             | LS_EQ
+   64             | GR_EQ
+   65             | NOT_EQ
+
+   66 Cond: /* empty */
+   67     | ID CompOperator ID
+   68     | ID CompOperator NUMBER
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+TYPE (258) 5 6 8 11 12 13
+FUNCTYPE (259)
+ID (260) 5 6 8 11 12 13 17 18 28 29 30 31 32 35 37 46 67 68
+SEMICOLON (261) 5 6 8 28 29 30 31 32 35 36 37 38
+EQ (262) 28 29 31 32
+NUMBER (263) 5 29 32 47 68
+WRITE (264) 30
+PLUS_OP (265) 41
+MINUS_OP (266) 42
+LPAR (267) 8 35 48 50 52
+RPAR (268) 8 35 48 50 52
+LCURBRACK (269) 21
+RCURBRACK (270) 21
+COMMA (271) 12 18 20
+LSQUAREBRACK (272) 5 13 32
+RSQUAREBRACK (273) 5 13 32
+IF (274) 52
+ELSE (275) 54 55
+WHILE (276) 50
+LT (277) 61
+GT (278) 62
+AND_OP (279) 58
+OR_OP (280) 59
+NOT_OP (281)
+MULT_OP (282) 43
+DIV_OP (283) 44
+IS_EQ (284) 60
+GR_EQ (285) 64
+LS_EQ (286) 63
+NOT_EQ (287) 65
+BOOLEAN (288)
+MOD_OP (289) 45
+RETURN (290) 36 37 38
+
+
+Nonterminals, with rules where they appear
+
+$accept (36)
+    on left: 0
+Program (37)
+    on left: 1, on right: 0
+DeclList (38)
+    on left: 2 3 4, on right: 1 3 4 21
+Decl (39)
+    on left: 5 6, on right: 3
+FunDecl (40)
+    on left: 8, on right: 4
+@1 (41)
+    on left: 7, on right: 8
+ParamsList (42)
+    on left: 9 10, on right: 8 9
+Params (43)
+    on left: 11 12 13, on right: 9 10
+ArgsList (44)
+    on left: 14 15, on right: 14 35
+Args (45)
+    on left: 16 17 18 19 20, on right: 14 15
+Block (46)
+    on left: 21, on right: 8 50 52 54
+StmtList (47)
+    on left: 22 23 24 25 26, on right: 1 21 23 25 26
+Stmt (48)
+    on left: 27 28 29 30 31 32 35 36 37 38, on right: 23 24
+@2 (49)
+    on left: 33, on right: 35
+@3 (50)
+    on left: 34, on right: 35
+ExprList (51)
+    on left: 39 40, on right: 19 20 39
+Expr (52)
+    on left: 41 42 43 44 45 46 47 48, on right: 31 32 36 39 40 41 42
+    43 44 45 48
+WhileStmt (53)
+    on left: 50, on right: 26
+@5 (54)
+    on left: 49, on right: 50
+IfStmt (55)
+    on left: 52, on right: 25 55
+@6 (56)
+    on left: 51, on right: 52
+Else (57)
+    on left: 53 54 55, on right: 52
+CondList (58)
+    on left: 56 57, on right: 50 52 57
+Conj (59)
+    on left: 58 59, on right: 57
+CompOperator (60)
+    on left: 60 61 62 63 64 65, on right: 67 68
+Cond (61)
+    on left: 66 67 68, on right: 56 57
+
+
+state 0
+
+    0 $accept: . Program $end
+
+    TYPE  shift, and go to state 1
+
+    $default  reduce using rule 2 (DeclList)
+
+    Program   go to state 2
+    DeclList  go to state 3
+    Decl      go to state 4
+    FunDecl   go to state 5
+
+
+state 1
+
+    5 Decl: TYPE . ID LSQUAREBRACK NUMBER RSQUAREBRACK SEMICOLON
+    6     | TYPE . ID SEMICOLON
+    8 FunDecl: TYPE . ID LPAR @1 ParamsList RPAR Block SEMICOLON
+
+    ID  shift, and go to state 6
+
+
+state 2
+
+    0 $accept: Program . $end
+
+    $end  shift, and go to state 7
+
+
+state 3
+
+    1 Program: DeclList . StmtList
+
+    ID      shift, and go to state 8
+    WRITE   shift, and go to state 9
+    IF      shift, and go to state 10
+    WHILE   shift, and go to state 11
+    RETURN  shift, and go to state 12
+
+    $end      reduce using rule 22 (StmtList)
+    $end      [reduce using rule 27 (Stmt)]
+    ID        [reduce using rule 27 (Stmt)]
+    WRITE     [reduce using rule 27 (Stmt)]
+    IF        [reduce using rule 27 (Stmt)]
+    WHILE     [reduce using rule 27 (Stmt)]
+    RETURN    [reduce using rule 27 (Stmt)]
+    $default  reduce using rule 22 (StmtList)
+
+    StmtList   go to state 13
+    Stmt       go to state 14
+    WhileStmt  go to state 15
+    IfStmt     go to state 16
+
+
+state 4
+
+    3 DeclList: Decl . DeclList
+
+    TYPE  shift, and go to state 1
+
+    $default  reduce using rule 2 (DeclList)
+
+    DeclList  go to state 17
+    Decl      go to state 4
+    FunDecl   go to state 5
+
+
+state 5
+
+    4 DeclList: FunDecl . DeclList
+
+    TYPE  shift, and go to state 1
+
+    $default  reduce using rule 2 (DeclList)
+
+    DeclList  go to state 18
+    Decl      go to state 4
+    FunDecl   go to state 5
+
+
+state 6
+
+    5 Decl: TYPE ID . LSQUAREBRACK NUMBER RSQUAREBRACK SEMICOLON
+    6     | TYPE ID . SEMICOLON
+    8 FunDecl: TYPE ID . LPAR @1 ParamsList RPAR Block SEMICOLON
+
+    SEMICOLON     shift, and go to state 19
+    LPAR          shift, and go to state 20
+    LSQUAREBRACK  shift, and go to state 21
+
+
+state 7
+
+    0 $accept: Program $end .
+
+    $default  accept
+
+
+state 8
+
+   28 Stmt: ID . EQ ID SEMICOLON
+   29     | ID . EQ NUMBER SEMICOLON
+   31     | ID . EQ Expr SEMICOLON
+   32     | ID . LSQUAREBRACK NUMBER RSQUAREBRACK EQ Expr SEMICOLON
+   35     | ID . LPAR @2 ArgsList RPAR @3 SEMICOLON
+
+    EQ            shift, and go to state 22
+    LPAR          shift, and go to state 23
+    LSQUAREBRACK  shift, and go to state 24
+
+
+state 9
+
+   30 Stmt: WRITE . ID SEMICOLON
+
+    ID  shift, and go to state 25
+
+
+state 10
+
+   52 IfStmt: IF . LPAR CondList RPAR Block @6 Else
+
+    LPAR  shift, and go to state 26
+
+
+state 11
+
+   50 WhileStmt: WHILE . @5 LPAR CondList RPAR Block
+
+    $default  reduce using rule 49 (@5)
+
+    @5  go to state 27
+
+
+state 12
+
+   36 Stmt: RETURN . Expr SEMICOLON
+   37     | RETURN . ID SEMICOLON
+   38     | RETURN . SEMICOLON
+
+    ID         shift, and go to state 28
+    SEMICOLON  shift, and go to state 29
+    NUMBER     shift, and go to state 30
+    LPAR       shift, and go to state 31
+
+    Expr  go to state 32
+
+
+state 13
+
+    1 Program: DeclList StmtList .
+
+    $default  reduce using rule 1 (Program)
+
+
+state 14
+
+   23 StmtList: Stmt . StmtList
+   24         | Stmt .
+
+    ID      shift, and go to state 8
+    WRITE   shift, and go to state 9
+    IF      shift, and go to state 10
+    WHILE   shift, and go to state 11
+    RETURN  shift, and go to state 12
+
+    $end       reduce using rule 22 (StmtList)
+    $end       [reduce using rule 24 (StmtList)]
+    $end       [reduce using rule 27 (Stmt)]
+    ID         [reduce using rule 27 (Stmt)]
+    WRITE      [reduce using rule 27 (Stmt)]
+    RCURBRACK  reduce using rule 22 (StmtList)
+    RCURBRACK  [reduce using rule 24 (StmtList)]
+    RCURBRACK  [reduce using rule 27 (Stmt)]
+    IF         [reduce using rule 27 (Stmt)]
+    WHILE      [reduce using rule 27 (Stmt)]
+    RETURN     [reduce using rule 27 (Stmt)]
+    $default   reduce using rule 22 (StmtList)
+
+    StmtList   go to state 33
+    Stmt       go to state 14
+    WhileStmt  go to state 15
+    IfStmt     go to state 16
+
+
+state 15
+
+   26 StmtList: WhileStmt . StmtList
+
+    ID      shift, and go to state 8
+    WRITE   shift, and go to state 9
+    IF      shift, and go to state 10
+    WHILE   shift, and go to state 11
+    RETURN  shift, and go to state 12
+
+    $end       reduce using rule 22 (StmtList)
+    $end       [reduce using rule 27 (Stmt)]
+    ID         [reduce using rule 27 (Stmt)]
+    WRITE      [reduce using rule 27 (Stmt)]
+    RCURBRACK  reduce using rule 22 (StmtList)
+    RCURBRACK  [reduce using rule 27 (Stmt)]
+    IF         [reduce using rule 27 (Stmt)]
+    WHILE      [reduce using rule 27 (Stmt)]
+    RETURN     [reduce using rule 27 (Stmt)]
+    $default   reduce using rule 22 (StmtList)
+
+    StmtList   go to state 34
+    Stmt       go to state 14
+    WhileStmt  go to state 15
+    IfStmt     go to state 16
+
+
+state 16
+
+   25 StmtList: IfStmt . StmtList
+
+    ID      shift, and go to state 8
+    WRITE   shift, and go to state 9
+    IF      shift, and go to state 10
+    WHILE   shift, and go to state 11
+    RETURN  shift, and go to state 12
+
+    $end       reduce using rule 22 (StmtList)
+    $end       [reduce using rule 27 (Stmt)]
+    ID         [reduce using rule 27 (Stmt)]
+    WRITE      [reduce using rule 27 (Stmt)]
+    RCURBRACK  reduce using rule 22 (StmtList)
+    RCURBRACK  [reduce using rule 27 (Stmt)]
+    IF         [reduce using rule 27 (Stmt)]
+    WHILE      [reduce using rule 27 (Stmt)]
+    RETURN     [reduce using rule 27 (Stmt)]
+    $default   reduce using rule 22 (StmtList)
+
+    StmtList   go to state 35
+    Stmt       go to state 14
+    WhileStmt  go to state 15
+    IfStmt     go to state 16
+
+
+state 17
+
+    3 DeclList: Decl DeclList .
+
+    $default  reduce using rule 3 (DeclList)
+
+
+state 18
+
+    4 DeclList: FunDecl DeclList .
+
+    $default  reduce using rule 4 (DeclList)
+
+
+state 19
+
+    6 Decl: TYPE ID SEMICOLON .
+
+    $default  reduce using rule 6 (Decl)
+
+
+state 20
+
+    8 FunDecl: TYPE ID LPAR . @1 ParamsList RPAR Block SEMICOLON
+
+    $default  reduce using rule 7 (@1)
+
+    @1  go to state 36
+
+
+state 21
+
+    5 Decl: TYPE ID LSQUAREBRACK . NUMBER RSQUAREBRACK SEMICOLON
+
+    NUMBER  shift, and go to state 37
+
+
+state 22
+
+   28 Stmt: ID EQ . ID SEMICOLON
+   29     | ID EQ . NUMBER SEMICOLON
+   31     | ID EQ . Expr SEMICOLON
+
+    ID      shift, and go to state 38
+    NUMBER  shift, and go to state 39
+    LPAR    shift, and go to state 31
+
+    Expr  go to state 40
+
+
+state 23
+
+   35 Stmt: ID LPAR . @2 ArgsList RPAR @3 SEMICOLON
+
+    $default  reduce using rule 33 (@2)
+
+    @2  go to state 41
+
+
+state 24
+
+   32 Stmt: ID LSQUAREBRACK . NUMBER RSQUAREBRACK EQ Expr SEMICOLON
+
+    NUMBER  shift, and go to state 42
+
+
+state 25
+
+   30 Stmt: WRITE ID . SEMICOLON
+
+    SEMICOLON  shift, and go to state 43
+
+
+state 26
+
+   52 IfStmt: IF LPAR . CondList RPAR Block @6 Else
+
+    ID  shift, and go to state 44
+
+    $default  reduce using rule 66 (Cond)
+
+    CondList  go to state 45
+    Cond      go to state 46
+
+
+state 27
+
+   50 WhileStmt: WHILE @5 . LPAR CondList RPAR Block
+
+    LPAR  shift, and go to state 47
+
+
+state 28
+
+   37 Stmt: RETURN ID . SEMICOLON
+   46 Expr: ID .
+
+    SEMICOLON  shift, and go to state 48
+
+    SEMICOLON  [reduce using rule 46 (Expr)]
+    $default   reduce using rule 46 (Expr)
+
+
+state 29
+
+   38 Stmt: RETURN SEMICOLON .
+
+    $default  reduce using rule 38 (Stmt)
+
+
+state 30
+
+   47 Expr: NUMBER .
+
+    $default  reduce using rule 47 (Expr)
+
+
+state 31
+
+   48 Expr: LPAR . Expr RPAR
+
+    ID      shift, and go to state 49
+    NUMBER  shift, and go to state 30
+    LPAR    shift, and go to state 31
+
+    Expr  go to state 50
+
+
+state 32
+
+   36 Stmt: RETURN Expr . SEMICOLON
+   41 Expr: Expr . PLUS_OP Expr
+   42     | Expr . MINUS_OP Expr
+   43     | Expr . MULT_OP Expr
+   44     | Expr . DIV_OP Expr
+   45     | Expr . MOD_OP Expr
+
+    SEMICOLON  shift, and go to state 51
+    PLUS_OP    shift, and go to state 52
+    MINUS_OP   shift, and go to state 53
+    MULT_OP    shift, and go to state 54
+    DIV_OP     shift, and go to state 55
+    MOD_OP     shift, and go to state 56
+
+
+state 33
+
+   23 StmtList: Stmt StmtList .
+
+    $default  reduce using rule 23 (StmtList)
+
+
+state 34
+
+   26 StmtList: WhileStmt StmtList .
+
+    $default  reduce using rule 26 (StmtList)
+
+
+state 35
+
+   25 StmtList: IfStmt StmtList .
+
+    $default  reduce using rule 25 (StmtList)
+
+
+state 36
+
+    8 FunDecl: TYPE ID LPAR @1 . ParamsList RPAR Block SEMICOLON
+
+    TYPE  shift, and go to state 57
+
+    ParamsList  go to state 58
+    Params      go to state 59
+
+
+state 37
+
+    5 Decl: TYPE ID LSQUAREBRACK NUMBER . RSQUAREBRACK SEMICOLON
+
+    RSQUAREBRACK  shift, and go to state 60
+
+
+state 38
+
+   28 Stmt: ID EQ ID . SEMICOLON
+   46 Expr: ID .
+
+    SEMICOLON  shift, and go to state 61
+
+    SEMICOLON  [reduce using rule 46 (Expr)]
+    $default   reduce using rule 46 (Expr)
+
+
+state 39
+
+   29 Stmt: ID EQ NUMBER . SEMICOLON
+   47 Expr: NUMBER .
+
+    SEMICOLON  shift, and go to state 62
+
+    SEMICOLON  [reduce using rule 47 (Expr)]
+    $default   reduce using rule 47 (Expr)
+
+
+state 40
+
+   31 Stmt: ID EQ Expr . SEMICOLON
+   41 Expr: Expr . PLUS_OP Expr
+   42     | Expr . MINUS_OP Expr
+   43     | Expr . MULT_OP Expr
+   44     | Expr . DIV_OP Expr
+   45     | Expr . MOD_OP Expr
+
+    SEMICOLON  shift, and go to state 63
+    PLUS_OP    shift, and go to state 52
+    MINUS_OP   shift, and go to state 53
+    MULT_OP    shift, and go to state 54
+    DIV_OP     shift, and go to state 55
+    MOD_OP     shift, and go to state 56
+
+
+state 41
+
+   35 Stmt: ID LPAR @2 . ArgsList RPAR @3 SEMICOLON
+
+    ID      shift, and go to state 64
+    NUMBER  shift, and go to state 30
+    LPAR    shift, and go to state 31
+
+    ID        [reduce using rule 16 (Args)]
+    NUMBER    [reduce using rule 16 (Args)]
+    LPAR      [reduce using rule 16 (Args)]
+    $default  reduce using rule 16 (Args)
+
+    ArgsList  go to state 65
+    Args      go to state 66
+    ExprList  go to state 67
+    Expr      go to state 68
+
+
+state 42
+
+   32 Stmt: ID LSQUAREBRACK NUMBER . RSQUAREBRACK EQ Expr SEMICOLON
+
+    RSQUAREBRACK  shift, and go to state 69
+
+
+state 43
+
+   30 Stmt: WRITE ID SEMICOLON .
+
+    $default  reduce using rule 30 (Stmt)
+
+
+state 44
+
+   67 Cond: ID . CompOperator ID
+   68     | ID . CompOperator NUMBER
+
+    LT      shift, and go to state 70
+    GT      shift, and go to state 71
+    IS_EQ   shift, and go to state 72
+    GR_EQ   shift, and go to state 73
+    LS_EQ   shift, and go to state 74
+    NOT_EQ  shift, and go to state 75
+
+    CompOperator  go to state 76
+
+
+state 45
+
+   52 IfStmt: IF LPAR CondList . RPAR Block @6 Else
+
+    RPAR  shift, and go to state 77
+
+
+state 46
+
+   56 CondList: Cond .
+   57         | Cond . Conj CondList
+
+    AND_OP  shift, and go to state 78
+    OR_OP   shift, and go to state 79
+
+    $default  reduce using rule 56 (CondList)
+
+    Conj  go to state 80
+
+
+state 47
+
+   50 WhileStmt: WHILE @5 LPAR . CondList RPAR Block
+
+    ID  shift, and go to state 44
+
+    $default  reduce using rule 66 (Cond)
+
+    CondList  go to state 81
+    Cond      go to state 46
+
+
+state 48
+
+   37 Stmt: RETURN ID SEMICOLON .
+
+    $default  reduce using rule 37 (Stmt)
+
+
+state 49
+
+   46 Expr: ID .
+
+    $default  reduce using rule 46 (Expr)
+
+
+state 50
+
+   41 Expr: Expr . PLUS_OP Expr
+   42     | Expr . MINUS_OP Expr
+   43     | Expr . MULT_OP Expr
+   44     | Expr . DIV_OP Expr
+   45     | Expr . MOD_OP Expr
+   48     | LPAR Expr . RPAR
+
+    PLUS_OP   shift, and go to state 52
+    MINUS_OP  shift, and go to state 53
+    RPAR      shift, and go to state 82
+    MULT_OP   shift, and go to state 54
+    DIV_OP    shift, and go to state 55
+    MOD_OP    shift, and go to state 56
+
+
+state 51
+
+   36 Stmt: RETURN Expr SEMICOLON .
+
+    $default  reduce using rule 36 (Stmt)
+
+
+state 52
+
+   41 Expr: Expr PLUS_OP . Expr
+
+    ID      shift, and go to state 49
+    NUMBER  shift, and go to state 30
+    LPAR    shift, and go to state 31
+
+    Expr  go to state 83
+
+
+state 53
+
+   42 Expr: Expr MINUS_OP . Expr
+
+    ID      shift, and go to state 49
+    NUMBER  shift, and go to state 30
+    LPAR    shift, and go to state 31
+
+    Expr  go to state 84
+
+
+state 54
+
+   43 Expr: Expr MULT_OP . Expr
+
+    ID      shift, and go to state 49
+    NUMBER  shift, and go to state 30
+    LPAR    shift, and go to state 31
+
+    Expr  go to state 85
+
+
+state 55
+
+   44 Expr: Expr DIV_OP . Expr
+
+    ID      shift, and go to state 49
+    NUMBER  shift, and go to state 30
+    LPAR    shift, and go to state 31
+
+    Expr  go to state 86
+
+
+state 56
+
+   45 Expr: Expr MOD_OP . Expr
+
+    ID      shift, and go to state 49
+    NUMBER  shift, and go to state 30
+    LPAR    shift, and go to state 31
+
+    Expr  go to state 87
+
+
+state 57
+
+   11 Params: TYPE . ID
+   12       | TYPE . ID COMMA
+   13       | TYPE . ID LSQUAREBRACK RSQUAREBRACK
+
+    ID  shift, and go to state 88
+
+
+state 58
+
+    8 FunDecl: TYPE ID LPAR @1 ParamsList . RPAR Block SEMICOLON
+
+    RPAR  shift, and go to state 89
+
+
+state 59
+
+    9 ParamsList: Params . ParamsList
+   10           | Params .
+
+    TYPE  shift, and go to state 57
+
+    $default  reduce using rule 10 (ParamsList)
+
+    ParamsList  go to state 90
+    Params      go to state 59
+
+
+state 60
+
+    5 Decl: TYPE ID LSQUAREBRACK NUMBER RSQUAREBRACK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 91
+
+
+state 61
+
+   28 Stmt: ID EQ ID SEMICOLON .
+
+    $default  reduce using rule 28 (Stmt)
+
+
+state 62
+
+   29 Stmt: ID EQ NUMBER SEMICOLON .
+
+    $default  reduce using rule 29 (Stmt)
+
+
+state 63
+
+   31 Stmt: ID EQ Expr SEMICOLON .
+
+    $default  reduce using rule 31 (Stmt)
+
+
+state 64
+
+   17 Args: ID .
+   18     | ID . COMMA
+   46 Expr: ID .
+
+    COMMA  shift, and go to state 92
+
+    ID        reduce using rule 17 (Args)
+    ID        [reduce using rule 46 (Expr)]
+    NUMBER    reduce using rule 17 (Args)
+    NUMBER    [reduce using rule 46 (Expr)]
+    LPAR      reduce using rule 17 (Args)
+    LPAR      [reduce using rule 46 (Expr)]
+    RPAR      reduce using rule 17 (Args)
+    RPAR      [reduce using rule 46 (Expr)]
+    COMMA     [reduce using rule 46 (Expr)]
+    $default  reduce using rule 46 (Expr)
+
+
+state 65
+
+   35 Stmt: ID LPAR @2 ArgsList . RPAR @3 SEMICOLON
+
+    RPAR  shift, and go to state 93
+
+
+state 66
+
+   14 ArgsList: Args . ArgsList
+   15         | Args .
+
+    ID      shift, and go to state 64
+    NUMBER  shift, and go to state 30
+    LPAR    shift, and go to state 31
+
+    ID        [reduce using rule 16 (Args)]
+    NUMBER    [reduce using rule 16 (Args)]
+    LPAR      [reduce using rule 16 (Args)]
+    RPAR      reduce using rule 15 (ArgsList)
+    RPAR      [reduce using rule 16 (Args)]
+    $default  reduce using rule 15 (ArgsList)
+
+    ArgsList  go to state 94
+    Args      go to state 66
+    ExprList  go to state 67
+    Expr      go to state 68
+
+
+state 67
+
+   19 Args: ExprList .
+   20     | ExprList . COMMA
+
+    COMMA  shift, and go to state 95
+
+    $default  reduce using rule 19 (Args)
+
+
+state 68
+
+   39 ExprList: Expr . ExprList
+   40         | Expr .
+   41 Expr: Expr . PLUS_OP Expr
+   42     | Expr . MINUS_OP Expr
+   43     | Expr . MULT_OP Expr
+   44     | Expr . DIV_OP Expr
+   45     | Expr . MOD_OP Expr
+
+    ID        shift, and go to state 49
+    NUMBER    shift, and go to state 30
+    PLUS_OP   shift, and go to state 52
+    MINUS_OP  shift, and go to state 53
+    LPAR      shift, and go to state 31
+    MULT_OP   shift, and go to state 54
+    DIV_OP    shift, and go to state 55
+    MOD_OP    shift, and go to state 56
+
+    ID        [reduce using rule 40 (ExprList)]
+    NUMBER    [reduce using rule 40 (ExprList)]
+    LPAR      [reduce using rule 40 (ExprList)]
+    $default  reduce using rule 40 (ExprList)
+
+    ExprList  go to state 96
+    Expr      go to state 68
+
+
+state 69
+
+   32 Stmt: ID LSQUAREBRACK NUMBER RSQUAREBRACK . EQ Expr SEMICOLON
+
+    EQ  shift, and go to state 97
+
+
+state 70
+
+   61 CompOperator: LT .
+
+    $default  reduce using rule 61 (CompOperator)
+
+
+state 71
+
+   62 CompOperator: GT .
+
+    $default  reduce using rule 62 (CompOperator)
+
+
+state 72
+
+   60 CompOperator: IS_EQ .
+
+    $default  reduce using rule 60 (CompOperator)
+
+
+state 73
+
+   64 CompOperator: GR_EQ .
+
+    $default  reduce using rule 64 (CompOperator)
+
+
+state 74
+
+   63 CompOperator: LS_EQ .
+
+    $default  reduce using rule 63 (CompOperator)
+
+
+state 75
+
+   65 CompOperator: NOT_EQ .
+
+    $default  reduce using rule 65 (CompOperator)
+
+
+state 76
+
+   67 Cond: ID CompOperator . ID
+   68     | ID CompOperator . NUMBER
+
+    ID      shift, and go to state 98
+    NUMBER  shift, and go to state 99
+
+
+state 77
+
+   52 IfStmt: IF LPAR CondList RPAR . Block @6 Else
+
+    LCURBRACK  shift, and go to state 100
+
+    Block  go to state 101
+
+
+state 78
+
+   58 Conj: AND_OP .
+
+    $default  reduce using rule 58 (Conj)
+
+
+state 79
+
+   59 Conj: OR_OP .
+
+    $default  reduce using rule 59 (Conj)
+
+
+state 80
+
+   57 CondList: Cond Conj . CondList
+
+    ID  shift, and go to state 44
+
+    $default  reduce using rule 66 (Cond)
+
+    CondList  go to state 102
+    Cond      go to state 46
+
+
+state 81
+
+   50 WhileStmt: WHILE @5 LPAR CondList . RPAR Block
+
+    RPAR  shift, and go to state 103
+
+
+state 82
+
+   48 Expr: LPAR Expr RPAR .
+
+    $default  reduce using rule 48 (Expr)
+
+
+state 83
+
+   41 Expr: Expr . PLUS_OP Expr
+   41     | Expr PLUS_OP Expr .
+   42     | Expr . MINUS_OP Expr
+   43     | Expr . MULT_OP Expr
+   44     | Expr . DIV_OP Expr
+   45     | Expr . MOD_OP Expr
+
+    MULT_OP  shift, and go to state 54
+    DIV_OP   shift, and go to state 55
+    MOD_OP   shift, and go to state 56
+
+    $default  reduce using rule 41 (Expr)
+
+
+state 84
+
+   41 Expr: Expr . PLUS_OP Expr
+   42     | Expr . MINUS_OP Expr
+   42     | Expr MINUS_OP Expr .
+   43     | Expr . MULT_OP Expr
+   44     | Expr . DIV_OP Expr
+   45     | Expr . MOD_OP Expr
+
+    MULT_OP  shift, and go to state 54
+    DIV_OP   shift, and go to state 55
+    MOD_OP   shift, and go to state 56
+
+    $default  reduce using rule 42 (Expr)
+
+
+state 85
+
+   41 Expr: Expr . PLUS_OP Expr
+   42     | Expr . MINUS_OP Expr
+   43     | Expr . MULT_OP Expr
+   43     | Expr MULT_OP Expr .
+   44     | Expr . DIV_OP Expr
+   45     | Expr . MOD_OP Expr
+
+    $default  reduce using rule 43 (Expr)
+
+
+state 86
+
+   41 Expr: Expr . PLUS_OP Expr
+   42     | Expr . MINUS_OP Expr
+   43     | Expr . MULT_OP Expr
+   44     | Expr . DIV_OP Expr
+   44     | Expr DIV_OP Expr .
+   45     | Expr . MOD_OP Expr
+
+    $default  reduce using rule 44 (Expr)
+
+
+state 87
+
+   41 Expr: Expr . PLUS_OP Expr
+   42     | Expr . MINUS_OP Expr
+   43     | Expr . MULT_OP Expr
+   44     | Expr . DIV_OP Expr
+   45     | Expr . MOD_OP Expr
+   45     | Expr MOD_OP Expr .
+
+    $default  reduce using rule 45 (Expr)
+
+
+state 88
+
+   11 Params: TYPE ID .
+   12       | TYPE ID . COMMA
+   13       | TYPE ID . LSQUAREBRACK RSQUAREBRACK
+
+    COMMA         shift, and go to state 104
+    LSQUAREBRACK  shift, and go to state 105
+
+    $default  reduce using rule 11 (Params)
+
+
+state 89
+
+    8 FunDecl: TYPE ID LPAR @1 ParamsList RPAR . Block SEMICOLON
+
+    LCURBRACK  shift, and go to state 100
+
+    Block  go to state 106
+
+
+state 90
+
+    9 ParamsList: Params ParamsList .
+
+    $default  reduce using rule 9 (ParamsList)
+
+
+state 91
+
+    5 Decl: TYPE ID LSQUAREBRACK NUMBER RSQUAREBRACK SEMICOLON .
+
+    $default  reduce using rule 5 (Decl)
+
+
+state 92
+
+   18 Args: ID COMMA .
+
+    $default  reduce using rule 18 (Args)
+
+
+state 93
+
+   35 Stmt: ID LPAR @2 ArgsList RPAR . @3 SEMICOLON
+
+    $default  reduce using rule 34 (@3)
+
+    @3  go to state 107
+
+
+state 94
+
+   14 ArgsList: Args ArgsList .
+
+    $default  reduce using rule 14 (ArgsList)
+
+
+state 95
+
+   20 Args: ExprList COMMA .
+
+    $default  reduce using rule 20 (Args)
+
+
+state 96
+
+   39 ExprList: Expr ExprList .
+
+    $default  reduce using rule 39 (ExprList)
+
+
+state 97
+
+   32 Stmt: ID LSQUAREBRACK NUMBER RSQUAREBRACK EQ . Expr SEMICOLON
+
+    ID      shift, and go to state 49
+    NUMBER  shift, and go to state 30
+    LPAR    shift, and go to state 31
+
+    Expr  go to state 108
+
+
+state 98
+
+   67 Cond: ID CompOperator ID .
+
+    $default  reduce using rule 67 (Cond)
+
+
+state 99
+
+   68 Cond: ID CompOperator NUMBER .
+
+    $default  reduce using rule 68 (Cond)
+
+
+state 100
+
+   21 Block: LCURBRACK . DeclList StmtList RCURBRACK
+
+    TYPE  shift, and go to state 1
+
+    $default  reduce using rule 2 (DeclList)
+
+    DeclList  go to state 109
+    Decl      go to state 4
+    FunDecl   go to state 5
+
+
+state 101
+
+   52 IfStmt: IF LPAR CondList RPAR Block . @6 Else
+
+    $default  reduce using rule 51 (@6)
+
+    @6  go to state 110
+
+
+state 102
+
+   57 CondList: Cond Conj CondList .
+
+    $default  reduce using rule 57 (CondList)
+
+
+state 103
+
+   50 WhileStmt: WHILE @5 LPAR CondList RPAR . Block
+
+    LCURBRACK  shift, and go to state 100
+
+    Block  go to state 111
+
+
+state 104
+
+   12 Params: TYPE ID COMMA .
+
+    $default  reduce using rule 12 (Params)
+
+
+state 105
+
+   13 Params: TYPE ID LSQUAREBRACK . RSQUAREBRACK
+
+    RSQUAREBRACK  shift, and go to state 112
+
+
+state 106
+
+    8 FunDecl: TYPE ID LPAR @1 ParamsList RPAR Block . SEMICOLON
+
+    SEMICOLON  shift, and go to state 113
+
+
+state 107
+
+   35 Stmt: ID LPAR @2 ArgsList RPAR @3 . SEMICOLON
+
+    SEMICOLON  shift, and go to state 114
+
+
+state 108
+
+   32 Stmt: ID LSQUAREBRACK NUMBER RSQUAREBRACK EQ Expr . SEMICOLON
+   41 Expr: Expr . PLUS_OP Expr
+   42     | Expr . MINUS_OP Expr
+   43     | Expr . MULT_OP Expr
+   44     | Expr . DIV_OP Expr
+   45     | Expr . MOD_OP Expr
+
+    SEMICOLON  shift, and go to state 115
+    PLUS_OP    shift, and go to state 52
+    MINUS_OP   shift, and go to state 53
+    MULT_OP    shift, and go to state 54
+    DIV_OP     shift, and go to state 55
+    MOD_OP     shift, and go to state 56
+
+
+state 109
+
+   21 Block: LCURBRACK DeclList . StmtList RCURBRACK
+
+    ID      shift, and go to state 8
+    WRITE   shift, and go to state 9
+    IF      shift, and go to state 10
+    WHILE   shift, and go to state 11
+    RETURN  shift, and go to state 12
+
+    ID         [reduce using rule 27 (Stmt)]
+    WRITE      [reduce using rule 27 (Stmt)]
+    RCURBRACK  reduce using rule 22 (StmtList)
+    RCURBRACK  [reduce using rule 27 (Stmt)]
+    IF         [reduce using rule 27 (Stmt)]
+    WHILE      [reduce using rule 27 (Stmt)]
+    RETURN     [reduce using rule 27 (Stmt)]
+    $default   reduce using rule 22 (StmtList)
+
+    StmtList   go to state 116
+    Stmt       go to state 14
+    WhileStmt  go to state 15
+    IfStmt     go to state 16
+
+
+state 110
+
+   52 IfStmt: IF LPAR CondList RPAR Block @6 . Else
+
+    ELSE  shift, and go to state 117
+
+    $default  reduce using rule 53 (Else)
+
+    Else  go to state 118
+
+
+state 111
+
+   50 WhileStmt: WHILE @5 LPAR CondList RPAR Block .
+
+    $default  reduce using rule 50 (WhileStmt)
+
+
+state 112
+
+   13 Params: TYPE ID LSQUAREBRACK RSQUAREBRACK .
+
+    $default  reduce using rule 13 (Params)
+
+
+state 113
+
+    8 FunDecl: TYPE ID LPAR @1 ParamsList RPAR Block SEMICOLON .
+
+    $default  reduce using rule 8 (FunDecl)
+
+
+state 114
+
+   35 Stmt: ID LPAR @2 ArgsList RPAR @3 SEMICOLON .
+
+    $default  reduce using rule 35 (Stmt)
+
+
+state 115
+
+   32 Stmt: ID LSQUAREBRACK NUMBER RSQUAREBRACK EQ Expr SEMICOLON .
+
+    $default  reduce using rule 32 (Stmt)
+
+
+state 116
+
+   21 Block: LCURBRACK DeclList StmtList . RCURBRACK
+
+    RCURBRACK  shift, and go to state 119
+
+
+state 117
+
+   54 Else: ELSE . Block
+   55     | ELSE . IfStmt
+
+    LCURBRACK  shift, and go to state 100
+    IF         shift, and go to state 10
+
+    Block   go to state 120
+    IfStmt  go to state 121
+
+
+state 118
+
+   52 IfStmt: IF LPAR CondList RPAR Block @6 Else .
+
+    $default  reduce using rule 52 (IfStmt)
+
+
+state 119
+
+   21 Block: LCURBRACK DeclList StmtList RCURBRACK .
+
+    $default  reduce using rule 21 (Block)
+
+
+state 120
+
+   54 Else: ELSE Block .
+
+    $default  reduce using rule 54 (Else)
+
+
+state 121
+
+   55 Else: ELSE IfStmt .
+
+    $default  reduce using rule 55 (Else)
