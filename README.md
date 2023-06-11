@@ -2,7 +2,7 @@
 ## CST-405 / Spring-2023
 
 # Compiler
-#### This project was completed as a semester-long project with multiply milestones. The final project is a compiler for the C-- language.
+#### This project was completed as a semester-long project with multiply milestones. The final project is a compiler for the C-- language which is subset of C.
 
 # Installation
 #### Clone this project to your local device using Git.
